@@ -19,4 +19,4 @@ jobs:
       - name: Sync with CachyOS Mirror
         run: |
           echo "Syncing with CachyOS Mirror..."
-          rclone sync --b2-account ${{ secrets.MIRROR_CACHYOS_B2_ACCOUNT }} --b2-key ${{ secrets.MIRROR_CACHYOS_B2_KEY }} --b2-hard-delete --http-url "https://mirror.cachyos.org/repo/" :http: :b2:${{ secrets.MIRROR_CACHYOS_B2_BUCKET }}/
+          rclone sync --b2-account ${{ secrets.MIRROR_CACHYOS_B2_ACCOUNT }} --b2-key ${{ secrets.MIRROR_CACHYOS_B2_KEY }} --b2-hard-delete --http-url "https://mirror.cachyos.org/repo/" :http: :b2:${{ secrets.MIRROR_CACHYOS_B2_BUCKET }}/ -vv
