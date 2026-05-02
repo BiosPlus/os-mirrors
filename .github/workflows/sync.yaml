@@ -1,0 +1,41 @@
+name: Sync Linux Mirrors
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: 10 * * * *
+
+jobs:
+  sync-cachyos:
+    runs-on: ubuntu-slim
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Install rclone
+        run: |
+          echo "Installing rclone..."
+          curl https://rclone.org/install.sh | sudo bash
+          which rclone
+
+      - name: Sync with CachyOS Mirror
+        run: |
+          echo "Syncing with CachyOS Mirror..."
+          rclone sync --b2-account ${{ secrets.LINUX_MIRROR_B2_ACCOUNT }} --b2-key ${{ secrets.LINUX_MIRROR_B2_KEY }} --b2-hard-delete --transfers 20 --checkers 40 --multi-thread-cutoff 100G --http-url "https://mirror.cachyos.org/" :http: :b2:${{ secrets.LINUX_MIRROR_B2_BUCKET }}/cachyos/ -v
+
+  sync-arch:
+    runs-on: ubuntu-slim
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Install rclone
+        run: |
+          echo "Installing rclone..."
+          curl https://rclone.org/install.sh | sudo bash
+          which rclone
+
+      - name: Sync with Arch Linux Mirror
+        run: |
+          echo "Syncing with Arch Linux Mirror..."
+          rclone sync --b2-account ${{ secrets.LINUX_MIRROR_B2_ACCOUNT }} --b2-key ${{ secrets.LINUX_MIRROR_B2_KEY }} --b2-hard-delete --transfers 20 --checkers 40 --multi-thread-cutoff 100G --http-url "https://cloudflaremirrors.com/archlinux/" :http: :b2:${{ secrets.LINUX_MIRROR_B2_BUCKET }}/archlinux/ -v
