@@ -1,0 +1,22 @@
+name: Sync CachyOS Mirror
+
+on:
+  workflow_dispatch:
+
+jobs:
+  cachyos-sync:
+    runs-on: ubuntu-slim
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Install rclone
+        run: |
+          echo "Installing rclone..."
+          curl https://rclone.org/install.sh | sudo bash
+          which rclone
+
+      - name: Sync with CachyOS Mirror
+        run: |
+          echo "Syncing with CachyOS Mirror..."
+          rclone sync --b2-account ${{ secrets.MIRROR_CACHYOS_B2_ACCOUNT }} --b2-key ${{ secrets.MIRROR_CACHYOS_B2_KEY }} --b2-hard-delete true --http-url "https://mirror.cachyos.org/repo/" :http: :b2:${{ secrets.MIRROR_CACHYOS_B2_BUCKET }}/
