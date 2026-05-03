@@ -7,7 +7,7 @@ on:
 
 jobs:
   sync-cachyos:
-    runs-on: ubuntu-slim
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v6
@@ -21,10 +21,10 @@ jobs:
       - name: Sync with CachyOS Mirror
         run: |
           echo "Syncing with CachyOS Mirror..."
-          rclone sync --b2-account ${{ secrets.LINUX_MIRROR_B2_ACCOUNT }} --b2-key ${{ secrets.LINUX_MIRROR_B2_KEY }} --b2-hard-delete --transfers 6 --checkers 20 --multi-thread-cutoff 100G --http-url "https://mirror.cachyos.org/" :http: :b2:${{ secrets.LINUX_MIRROR_B2_BUCKET }}/cachyos/ -v --order-by size,asc --max-backlog 100000
+          rclone sync --b2-account ${{ secrets.LINUX_MIRROR_B2_ACCOUNT }} --b2-key ${{ secrets.LINUX_MIRROR_B2_KEY }} --b2-hard-delete --transfers 10 --checkers 20 --multi-thread-cutoff 100G --http-url "https://mirror.cachyos.org/" :http: :b2:${{ secrets.LINUX_MIRROR_B2_BUCKET }}/cachyos/ -v --order-by size,asc --max-backlog 100000
 
   sync-arch:
-    runs-on: ubuntu-slim
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v6
@@ -38,4 +38,4 @@ jobs:
       - name: Sync with Arch Linux Mirror
         run: |
           echo "Syncing with Arch Linux Mirror..."
-          rclone sync --b2-account ${{ secrets.LINUX_MIRROR_B2_ACCOUNT }} --b2-key ${{ secrets.LINUX_MIRROR_B2_KEY }} --b2-hard-delete --transfers 6 --checkers 20 --multi-thread-cutoff 100G --http-url "https://mirror.aarnet.edu.au/pub/archlinux/" :http: :b2:${{ secrets.LINUX_MIRROR_B2_BUCKET }}/archlinux/ -v --order-by size,asc --max-backlog 100000
+          rclone sync --b2-account ${{ secrets.LINUX_MIRROR_B2_ACCOUNT }} --b2-key ${{ secrets.LINUX_MIRROR_B2_KEY }} --b2-hard-delete --transfers 10 --checkers 20 --multi-thread-cutoff 100G --http-url "https://mirror.aarnet.edu.au/pub/archlinux/" :http: :b2:${{ secrets.LINUX_MIRROR_B2_BUCKET }}/archlinux/ -v --order-by size,asc --max-backlog 100000
